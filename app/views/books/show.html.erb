@@ -1,0 +1,74 @@
+<div class="container">
+  <% if flash[:notice] %>
+    <div class="flash">
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+  
+
+<div class="row"> 
+<div class="col-xs-3"> 
+  <h2>User info</h2>
+  <table class="table">
+    <tr>
+      <%= attachment_image_tag @user, :profile_image, :fill, 60, 60, fallback: "no_image.png", size:'60x60' %>
+    </tr>
+    <tr>
+      <th>name</th>
+      <th><%= @user.name %></th>
+    </tr>
+    <tr>
+      <th>introduction</th>
+      <th><%= @user.introduction %></th>
+    </tr>
+    </table>
+    　<%= link_to edit_user_path(current_user.id) do %>
+        <span class="btn btn-default glyphicon glyphicon-wrench col-xs-12"></span>
+      <% end %>
+
+    <%= form_for(@book) do |f| %>
+      <% if @book.errors.any? %>
+    <% @booked.errors.full_messages.each do |message| %>
+      <p>error</p>
+      <%= message %>
+      <% end %>
+      <% end %>
+      <h2>New book</h2>
+      <h4>Title</h4>
+      <%= f.text_field :title, class:"col-xs-12" %>
+      <h4>Body</h4>
+      <%= f.text_area :body, class:"col-xs-12" %>
+      <%= f.submit "Create Book", class:"btn btn-primary btn-block col-xs-12" %>
+      <% end %>
+
+
+
+
+  </div>
+      <div class="col-xs-9">
+      <table class="table">
+        <thead>
+              <tr><h2>Book detail</h2></tr>
+              <td><%= link_to user_path(@user) do %>
+                <%= attachment_image_tag @user, :profile_image, :fill, 60, 60, fallback: "no_image.png", size:'60x60' %>
+                <%= @user.name%> 
+              <% end %></td>
+                <td><%= link_to book_path(@booked) do %>
+                  <%= @booked.title %>
+                  <% end %></td>
+                <td><%= @booked.body %></td>
+      <% if @booked.user_id == current_user.id %>
+            <td><%= link_to 'Edit', edit_book_path(@booked) %></td>
+            
+            <td><%= link_to 'Destroy', book_path(@booked), method: :delete, data: { confirm: '削除しますか？' } %></td>
+      <% end %>
+            </tr>
+            
+        </thead>
+      </table>
+      </div> 
+  </div>  
+</div>      
+
+
+
